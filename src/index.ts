@@ -1,1 +1,3 @@
-console.log('Hello World from your main file!');
+import "../styles/index.scss";
+const div = document.getElementById("div");
+console.log(div);

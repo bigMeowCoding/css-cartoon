@@ -1,6 +1,7 @@
-const path = require('path');
-const webpack = require('webpack');
-
+const webpack = require("webpack");
+const path = require("path"),
+  HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 /*
  * SplitChunksPlugin is enabled by default and replaced
  * deprecated CommonsChunkPlugin. It automatically identifies modules which
@@ -22,66 +23,77 @@ const webpack = require('webpack');
  *
  */
 
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
-	mode: 'development',
-	entry: './src/index.ts',
-	plugins: [new webpack.ProgressPlugin()],
+  mode: "development",
+  entry: "./src/index.ts",
+  plugins: [
+    new webpack.ProgressPlugin(),
+    new HtmlWebpackPlugin({
+      template: "./index.html",
+    }),
+    new CleanWebpackPlugin(),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        loader: "ts-loader",
+        include: [path.resolve(__dirname, "src")],
+        exclude: [/node_modules/],
+      },
+      {
+        test: /.(scss|css)$/,
 
-	module: {
-		rules: [
-			{
-				test: /\.(ts|tsx)$/,
-				loader: 'ts-loader',
-				include: [path.resolve(__dirname, 'src')],
-				exclude: [/node_modules/],
-			},
-			{
-				test: /.(scss|css)$/,
+        use: [
+          {
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
 
-				use: [
-					{
-						loader: 'style-loader',
-					},
-					{
-						loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: "sass-loader",
 
-						options: {
-							sourceMap: true,
-						},
-					},
-					{
-						loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    port: 8081,
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  optimization: {
+    minimizer: [new TerserPlugin()],
 
-						options: {
-							sourceMap: true,
-						},
-					},
-				],
-			},
-		],
-	},
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/,
+        },
+      },
 
-	resolve: {
-		extensions: ['.tsx', '.ts', '.js'],
-	},
-
-	optimization: {
-		minimizer: [new TerserPlugin()],
-
-		splitChunks: {
-			cacheGroups: {
-				vendors: {
-					priority: -10,
-					test: /[\\/]node_modules[\\/]/,
-				},
-			},
-
-			chunks: 'async',
-			minChunks: 1,
-			minSize: 30000,
-			name: false,
-		},
-	},
+      chunks: "async",
+      minChunks: 1,
+      minSize: 30000,
+      name: false,
+    },
+  },
 };
