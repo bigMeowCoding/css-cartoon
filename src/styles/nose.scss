@@ -1,0 +1,21 @@
+.nose {
+  width: 0;
+  height: 0;
+  position: relative;
+  left: 50%;
+  margin-left: -10px;
+  top: 145px;
+  border: 10px solid black;
+  border-color: black transparent transparent;
+  border-bottom: none;
+  z-index: 20;
+  .yuan {
+    position: absolute;
+    width: 20px;
+    height: 6px;
+    border-radius: 50% 50% 0 0;
+    background: black;
+    top: -16px;
+    left: -10px;
+  }
+}

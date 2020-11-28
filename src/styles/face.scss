@@ -1,0 +1,18 @@
+.face {
+  position: absolute;
+  top:200px;
+  left: 50%;
+  width: 88px;
+  height: 88px;
+  background: #ff0000;
+  border-radius: 50%;
+  margin-left: -32px;
+
+  &.left {
+    transform: translateX(-180px);
+  }
+  &.right {
+    transform: translateX(180px);
+  }
+}
+
