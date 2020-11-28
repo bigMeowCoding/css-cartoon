@@ -1,0 +1,75 @@
+.mouth {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  top: 120px;
+  margin-left: -100px;
+  .up {
+    position: relative;
+    top: -20px;
+    z-index: 1;
+    .lip {
+      width: 100px;
+      height: 30px;
+      border: 3px solid black;
+      border-top-color: transparent;
+      position: absolute;
+      left: 50%;
+      background: #ffe600;
+      border-right-color: transparent;
+
+      margin-left: -50px;
+      &:before {
+        content: "";
+        display: block;
+        height: 30px;
+        width: 7px; // 注意
+        bottom: 0;
+        background: #ffe600;
+        position: absolute;
+      }
+      &.left {
+        border-radius: 0 0 0 35px;
+        transform: rotate(-20deg) translateX(-53px);
+        &:before {
+          right: -6px; // 注意
+        }
+      }
+      &.right {
+        border-radius: 0 0 35px 0;
+        transform: rotate(20deg) translateX(53px);
+        &:before {
+          left: -6px;
+        }
+      }
+    }
+  }
+  .down {
+    height: 180px;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    .yuan1 {
+      width: 150px;
+      height: 1000px;
+      position: absolute;
+      bottom: 0;
+      left:50%;
+      margin-left: -75px;
+      background: #9b000a;
+      border-radius: 50%;
+      overflow: hidden;
+      .yuan2 {
+        width: 200px;
+        background: #ff485f;
+        height:300px;
+        position: absolute;
+        bottom: -160px; // 注意整体成为一个椭圆然后往下移动把椭圆部分弄出来遮挡外部圆
+        left: 50%;
+        margin-left: -100px;
+        border-radius: 50% 50% 0 0/ 100% 100% 0 0;
+      }
+    }
+  }
+}
