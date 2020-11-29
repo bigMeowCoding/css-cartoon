@@ -12,21 +12,19 @@ const player: any = {
   init() {
     this.ui.styleCode.innerText = cssConfig.substr(0, this.index);
     this.ui.styles.innerHTML = cssConfig.substr(0, this.index);
-    this.play();
+    this.run();
   },
   run() {
     player.index++;
-    if (player.n > cssConfig.length) {
-      clearInterval(player.id);
+    if (player.index >= cssConfig.length) {
+      clearTimeout(player.id);
       return;
     }
     player.ui.styleCode.innerText = cssConfig.substr(0, player.index);
     player.ui.styles.innerHTML = cssConfig.substr(0, player.index);
     player.ui.styleCode.scrollTop = player.ui.styleCode.scrollHeight;
-  },
-  play() {
-    this.id = setInterval(this.run, this.time);
+    player.id = setTimeout(player.run, player.time);
   },
 };
 
-player.init();
+// player.init();
