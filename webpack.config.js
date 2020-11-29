@@ -2,6 +2,9 @@ const webpack = require("webpack");
 const path = require("path"),
   HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const devMode = process.env.NODE_ENV !== "production";
+
 /*
  * SplitChunksPlugin is enabled by default and replaced
  * deprecated CommonsChunkPlugin. It automatically identifies modules which
@@ -24,17 +27,22 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
  */
 
 const TerserPlugin = require("terser-webpack-plugin");
+const plugins = [
+  new webpack.ProgressPlugin(),
+  new HtmlWebpackPlugin({
+    template: "./index.html",
+  }),
+  new CleanWebpackPlugin(),
+];
+if (!devMode) {
+  // enable in production only
+  plugins.push(new MiniCssExtractPlugin());
+}
 
 module.exports = {
   mode: "development",
   entry: "./src/index.ts",
-  plugins: [
-    new webpack.ProgressPlugin(),
-    new HtmlWebpackPlugin({
-      template: "./index.html",
-    }),
-    new CleanWebpackPlugin(),
-  ],
+  plugins,
   module: {
     rules: [
       {
@@ -52,22 +60,27 @@ module.exports = {
         ],
       },
       {
-        test: /.(scss|css)$/,
-
+        test: /\.(sa|sc|c)ss$/,
+        resolve: {
+          extensions: [".scss"],
+        },
         use: [
-          {
-            loader: "style-loader",
-          },
+          devMode
+            ? "style-loader"
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  publicPath: "",
+                },
+              },
           {
             loader: "css-loader",
-
             options: {
               sourceMap: true,
             },
           },
           {
             loader: "sass-loader",
-
             options: {
               sourceMap: true,
             },
