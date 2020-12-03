@@ -1,0 +1,25 @@
+.wrapper {
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+}
+.image-list {
+  max-width: 200px;
+  overflow: auto;
+  white-space: nowrap;
+  li {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    background-size: cover;
+  }
+  .image1 {
+    background-image: url("../images/1.jpg");
+  }
+  .image2 {
+    background-image: url("../images/2.jpg");
+  }
+  .image3 {
+    background-image: url("../images/3.jpg");
+  }
+}
